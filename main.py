@@ -20,15 +20,19 @@ def validate_inputs():
     username_error = ''
     if (username=='' or len(username) < 3 or len(username) > 20):
         username_error = ' Invalid User Name '
+    elif (' ' in username) == True:
+         username_error = ' Invalid User Name '
 
-    passsword = request.form['password']
+    password = request.form['password']
     password_error = ''
-    if (passsword=='' or len(passsword) < 3 or len(passsword) > 20):
+    if (password=='' or len(password) < 3 or len(password) > 20):
         password_error = ' Invalid Password '
+    elif (' ' in password) == True:
+        password_error = ' Invalid password '
 
-    verify_passsword = request.form['verify']
+    verify_password = request.form['verify']
     verify_password_error = ''    
-    if (verify_passsword != passsword):
+    if (verify_password != password):
         verify_password_error = ' Password does not match '  
 
     email = request.form['email']
@@ -38,6 +42,9 @@ def validate_inputs():
             email_error = 'Invalid email '
         elif(  len(email)<3 or len(email) > 20 ): 
             email_error = "Invalid email"   
+        elif (' ' in email ) == True:
+            email_error = ' Invalid email '
+
 
     if (not username_error) and (not password_error) and (not verify_password_error)and (not email_error):
         template = jinja_env.get_template('greeting.html')
@@ -45,7 +52,8 @@ def validate_inputs():
     else:
         template = jinja_env.get_template('form.html')
         return template.render(username=username,
-            username_error=username_error,passsword=passsword,password_error=password_error,
-            verify_passsword=verify_passsword,verify_password_error=verify_password_error,
+            username_error=username_error,passsword=password,password_error=password_error,
+            verify_passsword=verify_password,verify_password_error=verify_password_error,
             email=email,email_error=email_error)
 app.run()
+
