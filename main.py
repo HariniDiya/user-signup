@@ -29,15 +29,24 @@ def validate_inputs():
     verify_passsword = request.form['verify']
     verify_password_error = ''    
     if (verify_passsword != passsword):
-        verify_password_error = ' Password does not match '
-        #print(verify_password_error)
+        verify_password_error = ' Password does not match '  
 
-    if (not username_error) and (not password_error) and (not verify_password_error):
+    email = request.form['email']
+    email_error = ''
+    if (len(email) == ''):
+        email_error = ''
+    elif email.count("@") != 1 or email.count(".") != 1: 
+        email_error = 'Invalid email '
+    elif( (' 'in email) == True or len(email)<3 or len(email) > 20 ): 
+        email_error = "Invalid email"   
+
+    if (not username_error) and (not password_error) and (not verify_password_error)and (not email_error):
         template = jinja_env.get_template('greeting.html')
         return template.render(name=username)
     else:
         template = jinja_env.get_template('form.html')
         return template.render(username=username,
             username_error=username_error,passsword=passsword,password_error=password_error,
-            verify_passsword=verify_passsword,verify_password_error=verify_password_error)
+            verify_passsword=verify_passsword,verify_password_error=verify_password_error,
+            email=email,email_error=email_error)
 app.run()
