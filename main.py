@@ -33,12 +33,11 @@ def validate_inputs():
 
     email = request.form['email']
     email_error = ''
-    if (len(email) == ''):
-        email_error = ''
-    elif email.count("@") != 1 or email.count(".") != 1: 
-        email_error = 'Invalid email '
-    elif( (' 'in email) == True or len(email)<3 or len(email) > 20 ): 
-        email_error = "Invalid email"   
+    if (email != ''):   
+        if email.count("@") != 1 or email.count(".") != 1: 
+            email_error = 'Invalid email '
+        elif(  len(email)<3 or len(email) > 20 ): 
+            email_error = "Invalid email"   
 
     if (not username_error) and (not password_error) and (not verify_password_error)and (not email_error):
         template = jinja_env.get_template('greeting.html')
